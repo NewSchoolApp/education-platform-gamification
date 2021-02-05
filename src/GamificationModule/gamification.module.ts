@@ -22,6 +22,6 @@ import { UserRewardsListener } from './listener/user-rewards.listener';
     }),
   ],
   controllers: [],
-  providers: [UserRewardsService],
+  providers: [UserRewardsListener, UserRewardsService],
 })
 export class GamificationModule {}
