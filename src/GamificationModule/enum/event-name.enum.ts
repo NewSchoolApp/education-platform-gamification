@@ -8,4 +8,5 @@ export enum EventNameEnum {
   COURSE_REWARD_COURSE_NPS = 'CourseReward::CourseNPS',
   USER_REWARD_SHARE_APP = 'UserReward::ShareApp',
   USER_REWARD_TOP_MONTH = 'UserReward::TopMonth',
+  USER_REWARD_TOP_YEAR = 'UserReward::TopYear',
 }

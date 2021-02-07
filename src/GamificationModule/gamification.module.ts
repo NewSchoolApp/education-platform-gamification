@@ -30,6 +30,15 @@ const SQS = new AWS.SQS({ apiVersion: '2012-11-05', region: 'us-east-2' });
           terminateVisibilityTimeout: true,
           messageAttributeNames: ['All'],
         },
+        {
+          name: 'startAnnualRanking',
+          queueUrl: process.env.START_ANNUAL_RANKING_QUEUE_URL,
+          sqs: SQS, // instance of new AWS.SQS
+          waitTimeSeconds: 1,
+          batchSize: 1,
+          terminateVisibilityTimeout: true,
+          messageAttributeNames: ['All'],
+        },
       ],
       producers: [],
     }),

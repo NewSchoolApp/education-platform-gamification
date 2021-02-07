@@ -87,4 +87,23 @@ export class AchievementRepository extends Repository<Achievement> {
       ],
     );
   }
+
+  public checkIfHasTopRankForLastYear(): Promise<any[]> {
+    const lastTopMonthRankYear = new Date().getFullYear() - 1;
+    return this.query(
+      `
+      SELECT
+        *
+      FROM
+        achievement a
+      WHERE
+        eventName = ?
+      AND
+        a.completed = 1
+      AND
+        rule->>"$.year" = ?
+    `,
+      [EventNameEnum.USER_REWARD_TOP_YEAR, lastTopMonthRankYear],
+    );
+  }
 }

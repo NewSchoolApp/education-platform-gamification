@@ -48,8 +48,44 @@ export class UserRewardsService {
     });
   }
 
+  public async topRankingAnnualReward() {
+    const alreadyRanTopRankingThisYear = await this.alreadyRanTopRankingLastYear();
+    if (alreadyRanTopRankingThisYear) return;
+
+    const users: RankingQueryDTO[] = await this.achievementRepository.getLastTimeRangeRanking(
+      OrderEnum.DESC,
+      TimeRangeEnum.YEAR,
+      10,
+    );
+
+    if (!users.length) return;
+
+    const badge = await this.badgeRepository.findByEventNameAndOrder(
+      EventNameEnum.USER_REWARD_TOP_YEAR,
+      1,
+    );
+
+    for (const user of users) {
+      await this.achievementRepository.save({
+        eventName: EventNameEnum.USER_REWARD_TOP_YEAR,
+        badge,
+        userId: user.userId,
+        rule: {
+          year: new Date().getFullYear() - 1,
+        },
+        completed: true,
+        points: badge.points,
+      });
+    }
+  }
+
   private async alreadyRanTopRankingLastMonth(): Promise<boolean> {
     const response = await this.achievementRepository.checkIfHasTopRankForLastMonth();
+    return response.length > 0;
+  }
+
+  private async alreadyRanTopRankingLastYear(): Promise<boolean> {
+    const response = await this.achievementRepository.checkIfHasTopRankForLastYear();
     return response.length > 0;
   }
 }

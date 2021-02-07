@@ -10,4 +10,9 @@ export class UserRewardsListener {
   public async handleMessage() {
     await this.service.topRankingMonthlyReward();
   }
+
+  @SqsMessageHandler('startAnnualRanking', false)
+  public async handleStartAnnualRanking() {
+    await this.service.topRankingAnnualReward();
+  }
 }
